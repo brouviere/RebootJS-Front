@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Switch, Route } from 'react-router-dom';
-import UsersList from '../Users/Components/UsersList';
+// import UsersList from '../Users/Components/UsersList';
 import LoginPage from '../Login/components/LoginPage';
 
 class AppContent extends React.Component {
@@ -9,7 +9,7 @@ class AppContent extends React.Component {
     return (
       <Switch>
         <Route path="/login"><LoginPage></LoginPage></Route>
-        <Route path="/" component={UsersList} />
+        <Route path="/" component={LoginPage} />
       </Switch>
     )
   }
