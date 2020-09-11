@@ -6,6 +6,7 @@ import history from '../../history';
 import { validateRequiredField } from '../../Utils/ValidateRequiredField';
 import { Alert } from '@material-ui/lab';
 import DoneOutlineIcon from '@material-ui/icons/DoneOutline';
+import BlockIcon from '@material-ui/icons/Block';
 
 interface LoginFormState {
   email: IFormField;
@@ -17,8 +18,8 @@ class LoginForm extends React.Component<{}, LoginFormState> {
   constructor(props: {}){
     super(props)
     this.state= {
-      email: {value: '', isValid: false},
-      password: {value: '', isValid: false},
+      email: {value: '', isValid: true},
+      password: {value: '', isValid: true},
       status: 'ready'
     }
   }
@@ -46,11 +47,14 @@ class LoginForm extends React.Component<{}, LoginFormState> {
             onChange={(event) => this.setState({
               email: {value: event.target.value, isValid: validateRequiredField(event.target.value)}
             })}
+            onBlur={() => this.setState({
+              email: {value: email.value, isValid: validateRequiredField(email.value)}
+            })}
             fullWidth={true}
             style={{margin: '0.5rem 0'}}
             variant="outlined"
 
-            {...( email.isValid && !!email.value ? {} : { error: true, helperText: "Ce champ est obligatoire" })}
+            {...( email.isValid ? {} : { error: true, helperText: "Ce champ est obligatoire" })}
           />
           <TextField
             type="password"
@@ -59,6 +63,9 @@ class LoginForm extends React.Component<{}, LoginFormState> {
             value={password.value}
             onChange={(event) => this.setState({
               password: {value: event.target.value, isValid: validateRequiredField(event.target.value)}
+            })}
+            onBlur={() => this.setState({
+              password: {value: password.value, isValid: validateRequiredField(password.value)}
             })}
             fullWidth={true}
             variant="outlined"
@@ -73,8 +80,8 @@ class LoginForm extends React.Component<{}, LoginFormState> {
                 color="primary"
                 variant="contained"
                 type="submit"
-                disabled={!email.isValid || !password.isValid}
-                startIcon={<DoneOutlineIcon />}
+                disabled={!email.value || !password.value}
+                startIcon={(!email.value || !password.value) ? <BlockIcon color="error"/> : <DoneOutlineIcon />}
                 fullWidth={true}
               >
                 Submit

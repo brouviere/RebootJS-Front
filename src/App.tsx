@@ -8,7 +8,7 @@ import AppContent from './Layout/AppContent';
 
 const theme = createMuiTheme({
   palette: {
-    primary: blue,
+    primary: { 500: '#467fcf' },
     secondary: yellow,
   },
 })
