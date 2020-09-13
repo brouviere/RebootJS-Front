@@ -3,7 +3,6 @@ import React from 'react';
 import history from '../../history';
 import { Alert } from '@material-ui/lab';
 
-import RegistrationFormlChecks from './RegistrationFormChecks';
 import { validateEmailField } from '../utils/validateEmailField';
 import { register } from '../../Api/UserApi';
 import IdentitySection from './IdentityForm';
