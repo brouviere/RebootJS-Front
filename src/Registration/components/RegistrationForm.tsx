@@ -10,7 +10,9 @@ import IdentitySection from './IdentityForm';
 import { defaultFormField, IProfileFormFields, defaultPasswordField } from '../../Utils/Types';
 import CredentialsSection from './CredentialsForm';
 import { validateRequiredField } from '../../Utils/ValidateRequiredField';
-import { validatePasswordConfirmation } from '../../Utils/ValidatePasswordConfirmation';
+import PasswordChecks from './PasswordChecks';
+import { validatePasswordField } from '../utils/validatePasswordField';
+// import ProfileFormCheck from './RegistrationFormChecks';
 
 export interface IRegistrationFormState {
   status: 'ready' | 'success' | 'error';
@@ -35,7 +37,7 @@ class RegistrationForm extends React.Component<{}, IRegistrationFormState> {
   saveProfile = (): void => {
     const { email, firstname, lastname, password } = this.state.fields;
     register(email.value, password.value, firstname.value, lastname.value)
-      .then(_profile => history.push(`profile`))
+      .then(_profile => history.push(`profiles/me`))
       .catch(_error => this.setState({ status: 'error'}));
   }
 
@@ -65,7 +67,7 @@ class RegistrationForm extends React.Component<{}, IRegistrationFormState> {
           break;
         case 'password' || 'confirmation':
           const { password, confirmation } = newState.fields;
-          validatePasswordConfirmation(password.value, confirmation.value);
+          validatePasswordField(password, confirmation);
           break;
       }
       this.setState(newState);
@@ -103,14 +105,20 @@ class RegistrationForm extends React.Component<{}, IRegistrationFormState> {
                   changePassword={this.changeField("password")}
                   changeConfirmation={this.changeField("confirmation")}
                 />
-                <RegistrationFormlChecks check={email.isValid} />
+                {/* <ProfileFormCheck check={email.isValid} /> */}
+                <PasswordChecks password={password} />
               </Grid>
             </Grid>
           </Box>
           <Box style={{ margin: '2rem 0' }}>
             <Grid container justify="flex-end">
               <Grid item xs={2}>
-                <Button variant="contained" color="primary" fullWidth={true} type="submit">
+                <Button
+                  variant="contained" 
+                  color="primary" 
+                  fullWidth={true} 
+                  type="submit"
+                >
                   Register
               </Button>
               </Grid>

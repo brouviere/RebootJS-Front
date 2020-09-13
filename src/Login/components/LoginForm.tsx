@@ -26,7 +26,7 @@ class LoginForm extends React.Component<{}, LoginFormState> {
 
   _submit = () => {
     login(this.state.email.value, this.state.password.value)
-      .then((user) => history.push('/'))
+      .then((user) => history.push('/profiles/me'))
       .catch(_err => {this.setState({status: 'error'})});
   }
 
@@ -53,7 +53,6 @@ class LoginForm extends React.Component<{}, LoginFormState> {
             fullWidth={true}
             style={{margin: '0.5rem 0'}}
             variant="outlined"
-
             {...( email.isValid ? {} : { error: true, helperText: "Ce champ est obligatoire" })}
           />
           <TextField
