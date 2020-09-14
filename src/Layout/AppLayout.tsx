@@ -44,7 +44,11 @@ class AppLayout extends React.Component<AppLayoutProps, AppLayoutState>{
   }
 
   changeDrawerContent = (content: IDrawerContent) => {
-    this.setState({showDrawer: !this.state.showDrawer, drawerContent: content});
+    this.setState({ drawerContent: content});
+  }
+
+  show = () => {
+    this.setState({ showDrawer: !this.state.showDrawer });
   }
 
   hideDrawer = () => {
@@ -57,13 +61,15 @@ class AppLayout extends React.Component<AppLayoutProps, AppLayoutState>{
     
     return <React.Fragment>
         <div className={filteredClasses}>
-          <AppMenu changeDrawerContent={this.changeDrawerContent}/>
+          <AppMenu show={this.show} showDrawer={this.state.showDrawer}/>
           <AppContent />
         </div>
         <AppDrawer 
           drawerContent={this.state.drawerContent}
           showDrawer={this.state.showDrawer}
-          hideDrawer={this.hideDrawer}/>
+          hideDrawer={this.hideDrawer}
+          changeDrawerContent={this.changeDrawerContent}/>
+          
       </React.Fragment>
   }
 

@@ -1,18 +1,26 @@
 import * as React from 'react';
-import { AppBar, Grid, Toolbar, Typography } from '@material-ui/core';
-import { Forum } from '@material-ui/icons';
+import { AppBar, Grid, Toolbar, Typography, IconButton } from '@material-ui/core';
+import { Forum, Menu } from '@material-ui/icons';
+import CloseIcon from '@material-ui/icons/Close';
 import { ProfileButton } from './ProfileButton';
-import { IDrawerContent } from './types';
 
 interface AppMenuProps {
-  changeDrawerContent: (content: IDrawerContent) => void;
+  showDrawer: boolean;
+  show : () => void;
 }
 
-export function AppMenu({ changeDrawerContent } : AppMenuProps){
+export function AppMenu({ show, showDrawer } : AppMenuProps){
   return (
     <React.Fragment>
       <AppBar position="static" style={{ height: '5vh' }}>
         <Grid container justify="space-between" alignItems="center" style={{ height: '100%' }}>
+          <Grid item >
+            <Toolbar>
+              <IconButton onClick={() => show()}>
+                {showDrawer ? <CloseIcon /> : <Menu />}
+              </IconButton>
+            </Toolbar>
+          </Grid>
           <Grid item>
             <Toolbar>
               <Forum fontSize="large" />
@@ -21,13 +29,6 @@ export function AppMenu({ changeDrawerContent } : AppMenuProps){
           </Grid>
           <Grid item>
             <Toolbar>
-              <h1>Nom de l'utilisateur</h1>
-            </Toolbar>
-          </Grid>
-          <Grid item>
-            <Toolbar>
-              <button onClick={() => changeDrawerContent('contacts')}>Users</button>
-              <button onClick={() => changeDrawerContent('conversations')}>Messages</button>
               <ProfileButton />
             </Toolbar>
           </Grid>

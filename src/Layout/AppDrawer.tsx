@@ -1,15 +1,18 @@
 import * as React from 'react';
-import { Theme, createStyles, Drawer, Box, withStyles } from '@material-ui/core';
+import { Theme, createStyles, Drawer, Box, withStyles, IconButton, Grid, Toolbar } from '@material-ui/core';
 import { IDrawerContent } from './types';
 import UsersList from '../Users/components/UsersList';
 import { getUsers } from '../Api/UserApi';
 import { IUser } from '../Users/User.interface';
+import GroupIcon from '@material-ui/icons/Group';
+import { Forum } from '@material-ui/icons';
 
 interface AppDrawerProps {
   showDrawer: boolean;
   drawerContent?: IDrawerContent;
   hideDrawer: () => void;
   classes: any;
+  changeDrawerContent: (content: IDrawerContent) => void;
 }
 
 interface AppDrawerState {
@@ -52,7 +55,22 @@ class AppDrawer extends React.Component<AppDrawerProps, AppDrawerState> {
         paper: this.props.classes.paper,
      }}>
       <Box className={this.props.classes.drawerHeader}>
-        <button onClick={this.props.hideDrawer}>Close</button>
+        <Grid container justify="space-between" alignItems="center" style={{ height: '100%' }}>
+          <Grid item >
+            <Toolbar>
+              <IconButton onClick={() => this.props.changeDrawerContent('contacts')}>
+                <GroupIcon />
+              </IconButton>
+            </Toolbar>
+          </Grid>
+          <Grid item>
+            <Toolbar>
+            <IconButton onClick={() => this.props.changeDrawerContent('conversations')}>
+                <Forum />
+              </IconButton>
+            </Toolbar>
+          </Grid>
+        </Grid>
       </Box>
       <Box className={this.props.classes.drawerContent}>
         {content}
@@ -62,4 +80,4 @@ class AppDrawer extends React.Component<AppDrawerProps, AppDrawerState> {
 }
 
 export default withStyles(styles)(AppDrawer);
-export const drawerWidth = '40vw';
+export const drawerWidth = '25vw';
