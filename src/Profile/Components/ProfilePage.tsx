@@ -1,7 +1,7 @@
 import * as React from 'react';
-import ProfileDetails from './ProfileDetails';
 import { IProfileFormFields } from '../../Utils/Types';
 import { IUser } from '../../Users/User.interface';
+import ProfileDetails from './ProfileDetails';
 
 export interface IProfileFormState {
   status: 'ready' | 'success' | 'error';

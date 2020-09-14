@@ -3,7 +3,7 @@ import './App.css';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core';
 import { Router } from 'react-router-dom';
 import history from './history';
-import AppContent from './Layout/AppContent';
+import AppLayout from './Layout/AppLayout';
 
 const theme = createMuiTheme({
   
@@ -30,7 +30,7 @@ function App() {
       <Router history={history} >
         <ThemeProvider theme={theme}>
           
-            <AppContent />
+            <AppLayout />
           
         </ThemeProvider>
       </Router>
