@@ -11,20 +11,12 @@ interface PasswordCheckProps {
 
 class PasswordCheck extends React.Component<PasswordCheckProps> {
   render() {
-    return this.props.check ? (
+    return (
       <Fragment>
         <Typography
-          style={{ marginLeft: "0.2rem", fontSize: "0.8rem", color: "green" }}
+          style={{ marginLeft: "0.2rem", fontSize: "0.8rem", color: (this.props.check ? "green" : "red") }}
         >
-          <CheckCircleOutlineIcon />{this.props.text}
-        </Typography>
-      </Fragment>
-    ) : (
-      <Fragment>
-        <Typography
-          style={{ marginLeft: "0.2rem", fontSize: "0.8rem", color: "red" }}
-        >
-          <BlockIcon />{this.props.text}
+          { this.props.check ? <CheckCircleOutlineIcon /> : <BlockIcon /> } {this.props.text}
         </Typography>
       </Fragment>
     );

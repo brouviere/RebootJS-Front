@@ -15,7 +15,7 @@ class PasswordChecks extends React.Component<PasswordChecksProps> {
       hasNumber,
       hasSymbol,
       hasValidLength,
-    } = this.props.password;
+    } = this.props.password;    
     return (
       <Grid
         container

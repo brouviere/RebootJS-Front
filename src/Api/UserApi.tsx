@@ -22,6 +22,11 @@ export function findById(id: number): Promise<IUser> {
     })
 }
 
+export function getConnectedProfile(): Promise<IUser> {
+  return axios.get( `${process.env.REACT_APP_BACKEND}/profile/me`, { withCredentials: true }
+  ).then(resp => resp.data)
+}
+
 export function login(email: string, password: string): Promise<IUser>{
   return axios
     .post('http://localhost:3000/login',
