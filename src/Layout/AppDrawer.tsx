@@ -6,6 +6,7 @@ import { getUsers } from '../Api/UserApi';
 import { IUser } from '../Users/User.interface';
 import GroupIcon from '@material-ui/icons/Group';
 import { Forum } from '@material-ui/icons';
+import ConversationsList from '../Conversations/components/ConversationsList';
 
 interface AppDrawerProps {
   showDrawer: boolean;
@@ -38,14 +39,20 @@ const styles = (theme: Theme) => createStyles({
 });
 
 class AppDrawer extends React.Component<AppDrawerProps, AppDrawerState> {
+  constructor(props: AppDrawerProps){
+    super(props);
+    this.state = {
+      usersList: []
+    }
+  }
 
   componentDidMount(){
-    // Load 10 first users
-    getUsers(0,10).then(fetchedUsers => { this.setState({usersList: fetchedUsers})})
+    // Load 100 first users
+    getUsers(0,100).then(fetchedUsers => { this.setState({usersList: fetchedUsers})})
   }
 
   render(){
-    const content = this.props.drawerContent === 'contacts' ? <UsersList usersList={this.state.usersList}/> : <h1>Coming soon...</h1>;
+    const content = this.props.drawerContent === 'contacts' ? <UsersList usersList={this.state.usersList}/> : <ConversationsList users={this.state.usersList} />;
     return this.props.showDrawer ?
     <Drawer
       variant="persistent"
