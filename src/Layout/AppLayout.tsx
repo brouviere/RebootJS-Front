@@ -94,7 +94,6 @@ class AppLayout extends React.Component<AppLayoutProps, AppLayoutState>{
         conversations: [...this.state.conversations, conversation]
       });
     }
-    
   }
 
   render(){

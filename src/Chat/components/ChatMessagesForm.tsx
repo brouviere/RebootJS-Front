@@ -33,6 +33,7 @@ class ChatMessagesForm extends React.Component<ChatMessageFormProps, ChatMessage
           color="primary"
           variant="contained"
           type="submit"
+          disabled={(!this.state.message)}
           startIcon={(!this.state.message) ? <BlockIcon color="error"/> : <DoneOutlineIcon />}
           fullWidth={true}
         >Send</Button>
