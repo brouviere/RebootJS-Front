@@ -66,6 +66,7 @@ class AppLayout extends React.Component<AppLayoutProps, AppLayoutState>{
 
   componentDidMount(){
     getConversations().then(conversations => {
+      console.log('conversations', conversations);
       this.setState({conversations: conversations})
     });
 
