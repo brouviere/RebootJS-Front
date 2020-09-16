@@ -20,7 +20,7 @@ class AppContent extends React.Component<AppContentProps> {
       <Switch>
         <Route path="/chats/:conversationId" component={() => <ChatPage conversations={this.props.conversations} users={this.props.users} sendMessage={this.props.sendMessage}/>}></Route>
         <Route path="/profiles/me"><ProfilePage /></Route>
-        <Route path="/profiles"><UsersPage /></Route>
+        <Route path="/profiles" component={UsersPage}></Route>
         <Route path="/login"><LoginPage></LoginPage></Route>
         <Route path="/" component={LoginPage} />
       </Switch>

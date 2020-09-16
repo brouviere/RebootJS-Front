@@ -1,3 +1,4 @@
+import { Avatar, ListItem, ListItemAvatar, ListItemText } from '@material-ui/core';
 import * as React from 'react';
 import { IUser } from '../../Users/User.interface';
 
@@ -7,9 +8,12 @@ interface ChatAttendeesListItemProps {
 
 class ChatAttendeesListItem extends React.Component<ChatAttendeesListItemProps>{
   render(){
-    return <React.Fragment>
-      <h1>{this.props.attendee.firstname}</h1>
-    </React.Fragment>
+    return <ListItem>
+      <ListItemAvatar>
+        <Avatar>{this.props.attendee.firstname[0]}</Avatar>
+      </ListItemAvatar>
+      <ListItemText>{this.props.attendee.firstname} {this.props.attendee.lastname}</ListItemText>
+    </ListItem>
   }
 }
 
