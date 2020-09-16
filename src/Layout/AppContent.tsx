@@ -2,10 +2,10 @@ import * as React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import LoginPage from '../Login/components/LoginPage';
 import ProfilePage from '../Profile/components/ProfilePage';
-import UsersPage from '../Users/components/UsersPage';
 import ChatPage from '../Chat/components/ChatPage';
 import { IConversation } from '../Conversations/types';
 import { IUser } from '../Users/User.interface';
+import UsersPage from '../Users/components/UsersPage';
 
 interface AppContentProps {
   conversations: IConversation[];
