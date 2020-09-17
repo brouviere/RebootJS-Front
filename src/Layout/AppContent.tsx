@@ -10,7 +10,7 @@ import UsersPage from '../Users/components/UsersPage';
 interface AppContentProps {
   conversations: IConversation[];
   users: IUser[];
-  sendMessage: (conversationId: string, emitter: string, targets: string[], content: string) => void
+  connectedUser?: IUser;
 }
 
 class AppContent extends React.Component<AppContentProps> {
@@ -18,8 +18,11 @@ class AppContent extends React.Component<AppContentProps> {
   render(){
     return (
       <Switch>
-        <Route path="/chats/:conversationId" component={() => <ChatPage conversations={this.props.conversations} users={this.props.users} sendMessage={this.props.sendMessage}/>}></Route>
-        <Route path="/profiles/me"><ProfilePage /></Route>
+        <Route path="/chats/:conversationId" component={
+          () => <ChatPage
+            conversations={this.props.conversations}
+            users={this.props.users}/>}/>
+        <Route path="/profiles/me" component={() => <ProfilePage connectedUser={this.props.connectedUser}/>}/>
         <Route path="/profiles" component={UsersPage}></Route>
         <Route path="/login"><LoginPage></LoginPage></Route>
         <Route path="/" component={LoginPage} />

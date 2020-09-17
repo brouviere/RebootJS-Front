@@ -7,6 +7,7 @@ import { IUser } from '../Users/User.interface';
 import GroupIcon from '@material-ui/icons/Group';
 import { Forum } from '@material-ui/icons';
 import ConversationsList from '../Conversations/components/ConversationsList';
+import { IConversation } from '../Conversations/types';
 
 interface AppDrawerProps {
   showDrawer: boolean;
@@ -14,6 +15,8 @@ interface AppDrawerProps {
   hideDrawer: () => void;
   classes: any;
   changeDrawerContent: (content: IDrawerContent) => void;
+  conversations: IConversation[];
+  connectedUser?: IUser;
 }
 
 interface AppDrawerState {
@@ -22,7 +25,7 @@ interface AppDrawerState {
 
 const styles = (theme: Theme) => createStyles({
   drawerHeader: {
-    height: '5vh',
+    height: '70px',
     textAlign: 'right',
     position: 'sticky',
     top: 0,
@@ -52,7 +55,9 @@ class AppDrawer extends React.Component<AppDrawerProps, AppDrawerState> {
   }
 
   render(){
-    const content = this.props.drawerContent === 'contacts' ? <UsersList usersList={this.state.usersList}/> : <ConversationsList users={this.state.usersList} />;
+    const content = this.props.drawerContent === 'contacts' ? 
+      <UsersList usersList={this.state.usersList} connectedUser={this.props.connectedUser}/>
+      : <ConversationsList conversations={this.props.conversations} users={this.state.usersList} />;
     return this.props.showDrawer ?
     <Drawer
       variant="persistent"

@@ -1,16 +1,55 @@
-import { IConversation } from "../Conversations/types";
+import { IConversation, IConversationMessage } from "../Conversations/types";
 import axios from 'axios';
+import { IUser } from "../Users/User.interface";
 
-export async function getConversations(): Promise<IConversation[]>{
-  const res = await axios.get(`http://localhost:3000/messages`,
+export async function getConversations(connectedUser: IUser): Promise<IConversation[]> {
+  console.log(connectedUser._id);
+  const messages: IConversationMessage[] = await axios.get(
+     `${process.env.REACT_APP_BACKEND}/messages`,
+     { withCredentials: true }
+   ).then(res => res.data);
+   if(messages.length === 0) return []
+
+   const batches = messages.reduce<{ [converstionId: string]: IConversationMessage[] }>(
+     (res, message) => ({
+       ...res,
+       [message.conversationId]: [...(res[message.conversationId] || []), message],
+     }),
+     {},
+   );
+
+   const conversations : IConversation[] = [];
+   for (const conversationId in batches) {
+     const messages = batches[conversationId];
+
+     const attendees = [...new Set(messages.flatMap(({ emitter, targets }) => [emitter, ...targets]))];
+     const targets = attendees.filter((id: string) => id !== connectedUser._id);
+
+     conversations.push({
+       _id: conversationId,
+       targets: targets,
+       messages: messages,
+       updatedAt: new Date(getLastMessageDate(messages)),
+       unseenMessages: 0
+     });
+     console.log(conversations);
+   }
+   return conversations;
+ }	
+
+ function getLastMessageDate(messages: IConversationMessage[]) {
+  return messages[messages.length - 1].createdAt;
+ }
+
+ export async function sendMessage(conversationId: string, targets: string[], content: string){
+  const resp = await axios.post(`${process.env.REACT_APP_BACKEND}/messages`,
+    {
+      conversationId, targets, content
+    },
     {
       withCredentials: true
-    }
-  );
-  
-  
-
-  return res.data;
+    });
+  return resp.data;
 }
 
 // export function getConversations(): Promise<IConversation[]>{

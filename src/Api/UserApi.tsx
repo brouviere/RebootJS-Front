@@ -3,7 +3,7 @@ import axios from 'axios';
 
 // fetch users via the server
 export function getUsers(skip: number, limit: number): Promise<IUser[]> {
-  return axios.get(`http://localhost:3000/profiles?skip=${skip}&limit=${limit}`,
+  return axios.get(`${process.env.REACT_APP_BACKEND}/profiles?skip=${skip}&limit=${limit}`,
     {
       withCredentials: true
     })
@@ -13,7 +13,7 @@ export function getUsers(skip: number, limit: number): Promise<IUser[]> {
 }
 // fetch an user
 export function findById(id: number): Promise<IUser> {
-  return axios.get(`http://localhost:3000/profiles/${id}`,
+  return axios.get(`${process.env.REACT_APP_BACKEND}/profiles/${id}`,
     {
       withCredentials: true
     })
@@ -22,14 +22,15 @@ export function findById(id: number): Promise<IUser> {
     })
 }
 
-export function getConnectedProfile(): Promise<IUser> {
-  return axios.get( `${process.env.REACT_APP_BACKEND}/profile/me`, { withCredentials: true }
+export function getConnectedUser(): Promise<IUser> {
+  return axios.get( `${process.env.REACT_APP_BACKEND}/profiles/me`, { withCredentials: true }
   ).then(resp => resp.data)
 }
 
 export function login(email: string, password: string): Promise<IUser>{
+  console.log(process.env.REACT_APP_BACKEND);
   return axios
-    .post('http://localhost:3000/login',
+    .post(`${process.env.REACT_APP_BACKEND}/login`,
     {
       username: email,
       password: password

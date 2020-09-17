@@ -1,35 +1,19 @@
 import * as React from 'react';
 import { IConversation } from '../types';
-import { getConversations } from '../../Api/ConversationsApi';
 import ConversationListItem from './ConversationsListItem';
 import { IUser } from '../../Users/User.interface';
 
-interface ConversationsListState {
+interface ConversationsListProps {
+  users: IUser[];
   conversations: IConversation[];
 }
 
-interface ConversationsListProps {
-  users: IUser[];
-}
-
-class ConversationsList extends React.Component<ConversationsListProps, ConversationsListState> {
-  constructor(props: ConversationsListProps){
-    super(props);
-    this.state = {
-      conversations: []
-    }
-  }
-
-  componentDidMount() {
-    getConversations()
-      .then(conversations => {
-        this.setState({ conversations: conversations })
-      })
-  }
+class ConversationsList extends React.Component<ConversationsListProps> {
 
   render(){
+    console.log(this.props.conversations);
     return <React.Fragment>
-      {this.state.conversations.map((conversation: IConversation, index: number) => {
+      {this.props.conversations.map((conversation: IConversation, index: number) => {
         return <ConversationListItem users={this.props.users} conversation={conversation} key={index}/>
       })}
     </React.Fragment>

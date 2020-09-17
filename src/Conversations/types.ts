@@ -1,7 +1,7 @@
 export interface IConversation {
   _id: string;
   targets: string[];
-  updatedAt: string;
+  updatedAt: Date;
   unseenMessages: number;
   messages: IConversationMessage[];
 }

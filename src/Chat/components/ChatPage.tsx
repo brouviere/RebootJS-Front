@@ -4,6 +4,7 @@ import ChatAttendees from './ChatAttendees';
 import { IConversation } from '../../Conversations/types';
 import { match, withRouter } from 'react-router-dom';
 import { IUser } from '../../Users/User.interface';
+import history from '../../history';
 import { Grid, Container, Paper, Theme, createStyles, withStyles } from '@material-ui/core';
 
 const styles = (theme: Theme) => createStyles({
@@ -19,45 +20,58 @@ interface ChatPageProps {
   conversations: IConversation[];
   users: IUser[];
   classes: any;
-  sendMessage: (conversationId: string, emitter: string, targets: string[], content: string) => void;
 }
 
+interface ChatPageState {
+  conversation?: IConversation;
+}
 
-class ChatPage extends React.Component<ChatPageProps> {
+class ChatPage extends React.Component<ChatPageProps, ChatPageState> {
+  constructor(props: ChatPageProps){
+    super(props);
+    this.state = {};
+  }
 
+  componentDidMount(){
+    let conversation = this.props.conversations.find(conv => conv._id === this.props.match.params.conversationId);
 
-  
-  render(){
-    let conversation = this.props.conversations?.find(conv => conv._id === this.props.match.params.conversationId);
-    let attendeesList: IUser[] = [];
+    if(!conversation) {
+      const target = new URLSearchParams(this.props.location.search).get('target');
+      if(!target) return history.push('/');
 
-    if(!!conversation) {
-      conversation.targets.forEach((target: string) => {
-        const user = this.props.users.find( (user: IUser) => user._id === target);
-        if(user) {
-          attendeesList.push(user);
-        }
-      });
+      conversation = {
+        _id: this.props.match.params.conversationId,
+        messages: [],
+        unseenMessages: 0,
+        updatedAt: new Date(),
+        targets: [ target ]
+      };
     }
+    this.setState({conversation: conversation})
+  }
 
-    return !!conversation ? <React.Fragment>
-      <Container className={this.props.classes.h100}>
-        <Grid container spacing={2} className={this.props.classes.h100}>
-          <Grid item xs={4} className={this.props.classes.h100}>
-            <Paper elevation={3} className={this.props.classes.h100}>
-              <ChatMessages conversation={conversation} messages={conversation.messages} sendMessage={this.props.sendMessage}/>
-            </Paper>
-          </Grid>
-          
-          <Grid item xs={4} className={this.props.classes.h100}>
-            <Paper elevation={3} className={this.props.classes.h100}>
-              <ChatAttendees attendees={attendeesList}/>
+  render(){
+    return (
+      <React.Fragment>
+        {this.state.conversation ? <React.Fragment>
+        <Container className={this.props.classes.h100}>
+          <Grid container spacing={2} className={this.props.classes.h100}>
+            <Grid item xs={4} className={this.props.classes.h100}>
+              <Paper elevation={3} className={this.props.classes.h100}>
+                <ChatMessages conversation={this.state.conversation}/>
               </Paper>
+            </Grid>
+            
+            <Grid item xs={4} className={this.props.classes.h100}>
+              <Paper elevation={3} className={this.props.classes.h100}>
+                <ChatAttendees attendees={this.props.users.filter(user => this.state.conversation?.targets.includes(user._id))}/>
+              </Paper>
+            </Grid>
           </Grid>
-        </Grid>
-      </Container>
-      
-    </React.Fragment> : null
+        </Container>
+        </React.Fragment> : null}
+      </React.Fragment>
+    )
   }
 }
 

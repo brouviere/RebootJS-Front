@@ -26,7 +26,10 @@ class LoginForm extends React.Component<{}, LoginFormState> {
 
   _submit = () => {
     login(this.state.email.value, this.state.password.value)
-      .then((user) => history.push('/profiles/me'))
+      .then((user) => {
+        history.push('/profiles/me');
+        localStorage.setItem('connectedUser', JSON.stringify(user));
+      })
       .catch(_err => {this.setState({status: 'error'})});
   }
 
