@@ -33,14 +33,16 @@ class ChatPage extends React.Component<ChatPageProps, ChatPageState> {
   }
 
   componentDidMount(){
-    let conversation = this.props.conversations.find(conv => conv._id === this.props.match.params.conversationId);
+    const conversations = this.props.conversations;
+    const conversationId = this.props.match.params.conversationId;
 
+    let conversation = conversations.find(conv => conv._id === conversationId);
     if(!conversation) {
       const target = new URLSearchParams(this.props.location.search).get('target');
       if(!target) return history.push('/');
 
       conversation = {
-        _id: this.props.match.params.conversationId,
+        _id: conversationId,
         messages: [],
         unseenMessages: 0,
         updatedAt: new Date(),

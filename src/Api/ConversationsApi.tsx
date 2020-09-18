@@ -52,6 +52,16 @@ export async function getConversations(connectedUser: IUser): Promise<IConversat
   return resp.data;
 }
 
+export async function patchConversationSeen(conversationId: string): Promise<IUser> {
+  const res = await axios.patch(`${process.env.REACT_APP_BACKEND}/profile/conversation-seen/${conversationId}`,
+    {},
+    {
+      withCredentials: true
+    }
+  )
+  return res.data;
+}
+
 // export function getConversations(): Promise<IConversation[]>{
 //   return Promise.resolve(
 //     [

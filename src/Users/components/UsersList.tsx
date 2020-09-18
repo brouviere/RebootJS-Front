@@ -27,7 +27,7 @@ class UsersList extends React.Component<UsersListProps>{
     return <React.Fragment>
       <List>
         {this.props.usersList.map((user, index) => {
-          return <ListItem key={index}>
+          return <ListItem key={index} button onClick={(_event) => { this.createConversation(user._id) }}>
               <UsersListItem firstname={user.firstname} lastname={user.lastname}/>
             </ListItem>
         })}

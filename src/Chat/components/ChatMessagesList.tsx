@@ -8,6 +8,13 @@ interface ChatMessageListProps {
 }
 
 class ChatMessagesList extends React.Component<ChatMessageListProps> {
+  componentDidUpdate(){
+
+  }
+
+  componentDidMount() {
+    
+  }
 
   render(){
     return <React.Fragment>
