@@ -3,11 +3,11 @@ import AppContent from './AppContent';
 import { withStyles, Theme, createStyles } from '@material-ui/core';
 import AppDrawer, {drawerWidth} from './AppDrawer';
 import { AppMenu } from './AppMenu';
-import { IDrawerContent } from './types';
-import { getConversations } from '../Api/ConversationsApi';
-import { IConversation } from '../Conversations/types';
-import { getConnectedUser, getUsers } from '../Api/UserApi';
-import { IUser } from '../Users/User.interface';
+import { IDrawerContent } from '../types';
+import { getConversations } from '../../Api/ConversationsApi';
+import { IConversation } from '../../Conversations/types';
+import { getConnectedUser, getUsers } from '../../Api/UserApi';
+import { IUser } from '../../Users/User.interface';
 
 interface AppLayoutProps {
   classes: any;
@@ -18,8 +18,8 @@ interface AppLayoutState {
   drawerContent?: IDrawerContent;
   conversations: IConversation[];
   users: IUser[];
-  connectedUser?: IUser;
   polling?: NodeJS.Timeout;
+  connectedUser?: IUser;
 }
 
 const styles = (theme: Theme) => createStyles({

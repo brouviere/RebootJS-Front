@@ -7,6 +7,13 @@ import { validateRequiredField } from '../../Utils/ValidateRequiredField';
 import { Alert } from '@material-ui/lab';
 import DoneOutlineIcon from '@material-ui/icons/DoneOutline';
 import BlockIcon from '@material-ui/icons/Block';
+import { IUser } from '../../Users/User.interface';
+import { updateConnectedUser } from '../../Users/actions/updateConnectedUser';
+import { connect } from 'react-redux';
+
+interface LoginFormProps {
+  updateIdentity: (user: IUser) => void;
+}
 
 interface LoginFormState {
   email: IFormField;
@@ -14,8 +21,8 @@ interface LoginFormState {
   status: 'ready' | 'success' | 'error';
 }
 
-class LoginForm extends React.Component<{}, LoginFormState> {
-  constructor(props: {}){
+class LoginForm extends React.Component<LoginFormProps, LoginFormState> {
+  constructor(props: LoginFormProps){
     super(props)
     this.state= {
       email: {value: '', isValid: true},
@@ -27,8 +34,8 @@ class LoginForm extends React.Component<{}, LoginFormState> {
   _submit = () => {
     login(this.state.email.value, this.state.password.value)
       .then((user) => {
+        this.props.updateIdentity(user);
         history.push('/profiles/me');
-        localStorage.setItem('connectedUser', JSON.stringify(user));
       })
       .catch(_err => {this.setState({status: 'error'})});
   }
@@ -97,4 +104,11 @@ class LoginForm extends React.Component<{}, LoginFormState> {
 
 }
 
-export default LoginForm;
+// const mapStateToProps = () => ({});
+const mapDispatchToProps = (dispatch: any) => ({
+  updateIdentity: (user: IUser) => dispatch(updateConnectedUser(user))
+});
+
+// export default connect(mapStateToProps, mapDispatchToProps)(LoginForm);
+// export default connect(mapStateToProps)(LoginForm);
+export default connect(undefined, mapDispatchToProps)(LoginForm);

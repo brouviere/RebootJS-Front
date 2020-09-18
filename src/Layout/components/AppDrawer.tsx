@@ -1,13 +1,13 @@
 import * as React from 'react';
 import { Theme, createStyles, Drawer, Box, withStyles, IconButton, Grid, Toolbar } from '@material-ui/core';
-import { IDrawerContent } from './types';
-import UsersList from '../Users/components/UsersList';
-import { getUsers } from '../Api/UserApi';
-import { IUser } from '../Users/User.interface';
+import { IDrawerContent } from '../types';
+import UsersList from '../../Users/components/UsersList';
+import { getUsers } from '../../Api/UserApi';
+import { IUser } from '../../Users/User.interface';
 import GroupIcon from '@material-ui/icons/Group';
 import { Forum } from '@material-ui/icons';
-import ConversationsList from '../Conversations/components/ConversationsList';
-import { IConversation } from '../Conversations/types';
+import ConversationsList from '../../Conversations/components/ConversationsList';
+import { IConversation } from '../../Conversations/types';
 
 interface AppDrawerProps {
   showDrawer: boolean;

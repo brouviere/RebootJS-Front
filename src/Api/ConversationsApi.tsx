@@ -53,7 +53,7 @@ export async function getConversations(connectedUser: IUser): Promise<IConversat
 }
 
 export async function patchConversationSeen(conversationId: string): Promise<IUser> {
-  const res = await axios.patch(`${process.env.REACT_APP_BACKEND}/profile/conversation-seen/${conversationId}`,
+  const res = await axios.patch(`${process.env.REACT_APP_BACKEND}/profiles/conversation-seen/${conversationId}`,
     {},
     {
       withCredentials: true

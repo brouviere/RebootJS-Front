@@ -3,7 +3,9 @@ import './App.css';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core';
 import { Router } from 'react-router-dom';
 import history from './history';
-import AppLayout from './Layout/AppLayout';
+import AppLayout from './Layout/components/AppLayout';
+import { Provider } from 'react-redux';
+import { store } from './store';
 
 const theme = createMuiTheme({
   
@@ -27,13 +29,15 @@ const theme = createMuiTheme({
 function App() {
   return (
     <div className="my-app">
-      <Router history={history} >
-        <ThemeProvider theme={theme}>
-          
-            <AppLayout />
-          
-        </ThemeProvider>
-      </Router>
+      <Provider store={store}>
+        <Router history={history} >
+          <ThemeProvider theme={theme}>
+            
+              <AppLayout />
+            
+          </ThemeProvider>
+        </Router>
+      </Provider>
     </div>
   );
 }
