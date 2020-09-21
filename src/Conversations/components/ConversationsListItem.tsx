@@ -3,7 +3,7 @@ import { AvatarGroup } from '@material-ui/lab';
 import { Avatar, ListItem, ListItemAvatar, ListItemText, Divider } from '@material-ui/core';
 import { IConversation } from '../types';
 import { IUser } from '../../Users/User.interface';
-import { Link } from 'react-router-dom';
+import history from '../../history';
 
 interface ConversationListItemProps {
   conversation: IConversation;
@@ -14,20 +14,17 @@ class ConversationListItem extends React.Component<ConversationListItemProps> {
 
   render() {
     return <React.Fragment>
-      <Link to={`/chats/${this.props.conversation._id}`}>
-        <ListItem>
-          <ListItemAvatar>
-            <AvatarGroup max={3}>
-                {this.props.conversation.targets.map((target, index) => <Avatar key={index}>{this.getUserFromList(target)?.firstname[0] || 'Unkonwn user'}</Avatar>)}
-            </AvatarGroup>
-          </ListItemAvatar>
-          <ListItemText
-            primary={this.props.conversation.messages[0].content}
-            secondary={this.props.conversation.updatedAt.toLocaleString()}
-          >
-          </ListItemText>
-        </ListItem>
-      </Link>
+      <ListItem button onClick={() => {history.push(`/chats/${this.props.conversation._id}`)}}>
+        <ListItemAvatar>
+          <AvatarGroup max={3}>
+              {this.props.conversation.targets.map((target, index) => <Avatar key={index}>{this.getUserFromList(target)?.firstname[0] || 'Unkonwn user'}</Avatar>)}
+          </AvatarGroup>
+        </ListItemAvatar>
+        <ListItemText
+          primary={this.props.conversation.messages[0].content}
+          secondary={this.props.conversation.updatedAt.toString()}>
+        </ListItemText>
+      </ListItem>
       <Divider />
     </React.Fragment>
   }

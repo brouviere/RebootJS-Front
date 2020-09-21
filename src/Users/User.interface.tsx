@@ -15,7 +15,14 @@ export interface UpdateConnectedUserAction {
 // --- ./Définition des types de l'actions ---
 
 export interface IUserState {
-  connectedUser?: IUser
+  connectedUser?: IUser;
+  users: IUser[];
 }
 
-export type IUserAction = UpdateConnectedUserAction;
+export const SET_ALL_USERS = 'SET_ALL_USERS';
+export interface SetAllUsersAction {
+  type: typeof SET_ALL_USERS,
+  users: IUser[]
+}
+
+export type IUserAction = UpdateConnectedUserAction | SetAllUsersAction;

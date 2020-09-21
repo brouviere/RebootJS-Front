@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 
 export function ProfileButton() {
   return (
-    <Link to="/profile">
+    <Link to="/profiles/me">
       <IconButton color='default' aria-label="profile">
         <AccountCircle fontSize="large" />
       </IconButton>

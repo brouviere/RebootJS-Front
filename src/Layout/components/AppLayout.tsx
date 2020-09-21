@@ -10,17 +10,19 @@ import { IUser } from '../../Users/User.interface';
 import { connect } from 'react-redux';
 import { IAppState } from '../../appReducer';
 import { updateConnectedUser } from '../../Users/actions/updateConnectedUser';
+import { setAllUsers } from '../../Users/actions/setAllUsers';
 
 interface AppLayoutProps {
   user?: IUser;
+  users: IUser[];
   classes: any;
   showDrawer: boolean;
   updateIdentity: (user: IUser) => void;
+  setAllUsers: (users: IUser[]) => void;
 }
 
 interface AppLayoutState {
   conversations: IConversation[];
-  users: IUser[];
   polling?: NodeJS.Timeout;
 }
 
@@ -51,7 +53,6 @@ class AppLayout extends React.Component<AppLayoutProps, AppLayoutState>{
     super(props);
     this.state = {
       conversations: [],
-      users: [],
     }
   }
 
@@ -75,7 +76,11 @@ class AppLayout extends React.Component<AppLayoutProps, AppLayoutState>{
 
   async componentDidMount(){
     getUsers(0,100)
-      .then(users => { this.setState({users: users}) })
+      .then(users => {
+        if(users.length > 0) {
+          this.props.setAllUsers(users);
+        }
+      })
       .catch(error => console.error(error))
 
     try {
@@ -109,13 +114,13 @@ class AppLayout extends React.Component<AppLayoutProps, AppLayoutState>{
           <AppMenu />
           <AppContent
             conversations={this.state.conversations}
-            users={this.state.users}
+            users={this.props.users}
             connectedUser={user}
           />
         </div>
         <AppDrawer
           showDrawer={showDrawer}
-          users={this.state.users}
+          users={this.props.users}
           conversations={this.state.conversations}
           connectedUser={user}
         />
@@ -127,10 +132,12 @@ class AppLayout extends React.Component<AppLayoutProps, AppLayoutState>{
 
 const mapStateToProps = ({ user, layout } : IAppState) => ({
   user: user.connectedUser,
+  users: user.users,
   showDrawer: layout.showDrawer
 })
 
 const mapDispatchToProps = (dispatch: any) => ({
-  updateIdentity: (user: IUser) => dispatch(updateConnectedUser(user))
+  updateIdentity: (user: IUser) => dispatch(updateConnectedUser(user)),
+  setAllUsers: (users: IUser[]) => dispatch(setAllUsers(users))
 });
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(AppLayout));
