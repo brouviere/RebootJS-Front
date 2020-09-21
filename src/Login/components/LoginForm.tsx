@@ -34,6 +34,7 @@ class LoginForm extends React.Component<LoginFormProps, LoginFormState> {
   _submit = () => {
     login(this.state.email.value, this.state.password.value)
       .then((user) => {
+        console.log('login user', user);
         this.props.updateIdentity(user);
         history.push('/profiles/me');
       })
@@ -84,7 +85,7 @@ class LoginForm extends React.Component<LoginFormProps, LoginFormState> {
         </Box>
         <Box style={{margin: '1rem 0'}}>
           <Grid container justify='flex-end'>
-            <Grid item xs={4}>
+            {/* <Grid item xs={4}> */}
               <Button
                 color="primary"
                 variant="contained"
@@ -95,7 +96,7 @@ class LoginForm extends React.Component<LoginFormProps, LoginFormState> {
               >
                 Submit
               </Button>
-            </Grid>
+            {/* </Grid> */}
           </Grid>
         </Box>
       </form>

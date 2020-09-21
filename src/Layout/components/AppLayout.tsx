@@ -3,19 +3,19 @@ import AppContent from './AppContent';
 import { withStyles, Theme, createStyles } from '@material-ui/core';
 import AppDrawer, {drawerWidth} from './AppDrawer';
 import { AppMenu } from './AppMenu';
-import { IDrawerContent } from '../types';
 import { getConversations } from '../../Api/ConversationsApi';
 import { IConversation } from '../../Conversations/types';
 import { getConnectedUser, getUsers } from '../../Api/UserApi';
 import { IUser } from '../../Users/User.interface';
+import { connect } from 'react-redux';
+import { IAppState } from '../../appReducer';
 
 interface AppLayoutProps {
   classes: any;
+  showDrawer: boolean;
 }
 
 interface AppLayoutState {
-  showDrawer: boolean;
-  drawerContent?: IDrawerContent;
   conversations: IConversation[];
   users: IUser[];
   polling?: NodeJS.Timeout;
@@ -48,23 +48,22 @@ class AppLayout extends React.Component<AppLayoutProps, AppLayoutState>{
   constructor(props: AppLayoutProps){
     super(props);
     this.state = {
-      showDrawer: false,
       conversations: [],
       users: [],
     }
   }
 
-  changeDrawerContent = (content: IDrawerContent) => {
-    this.setState({ drawerContent: content});
-  }
+  // changeDrawerContent = (content: IDrawerContent) => {
+  //   this.setState({ drawerContent: content});
+  // }
 
-  show = () => {
-    this.setState({ showDrawer: !this.state.showDrawer });
-  }
+  // changeShowDrawer = () => {
+  //   this.setState({ showDrawer: !this.state.showDrawer });
+  // }
 
-  hideDrawer = () => {
-    this.setState({showDrawer: false});
-  }
+  // hideDrawer = () => {
+  //   this.setState({showDrawer: false});
+  // }
 
   fetchConversations = async (user?: IUser) => {
     if(!user) return;
@@ -101,23 +100,20 @@ class AppLayout extends React.Component<AppLayoutProps, AppLayoutState>{
   }
 
   render(){
-    const { classes } = this.props;
-    const filteredClasses = [classes.content, this.state.showDrawer && classes.contentShift].filter(Boolean).join(' ');
+    const { classes, showDrawer } = this.props;
+    const filteredClasses = [classes.content, showDrawer && classes.contentShift].filter(Boolean).join(' ');
     
     return <React.Fragment>
         <div className={filteredClasses}>
-          <AppMenu show={this.show} showDrawer={this.state.showDrawer}/>
+          <AppMenu/>
           <AppContent
             conversations={this.state.conversations}
             users={this.state.users}
             connectedUser={this.state.connectedUser}
           />
         </div>
-        <AppDrawer 
-          drawerContent={this.state.drawerContent}
-          showDrawer={this.state.showDrawer}
-          hideDrawer={this.hideDrawer}
-          changeDrawerContent={this.changeDrawerContent}
+        <AppDrawer
+          users={this.state.users}
           conversations={this.state.conversations}
           connectedUser={this.state.connectedUser}
         />
@@ -127,4 +123,7 @@ class AppLayout extends React.Component<AppLayoutProps, AppLayoutState>{
 
 }
 
-export default withStyles(styles)(AppLayout);
+const mapStateToProps = ({ layout } : IAppState) => ({
+  showDrawer: layout.showDrawer
+})
+export default connect(mapStateToProps)(withStyles(styles)(AppLayout));

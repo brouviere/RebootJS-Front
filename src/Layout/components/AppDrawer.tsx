@@ -2,25 +2,23 @@ import * as React from 'react';
 import { Theme, createStyles, Drawer, Box, withStyles, IconButton, Grid, Toolbar } from '@material-ui/core';
 import { IDrawerContent } from '../types';
 import UsersList from '../../Users/components/UsersList';
-import { getUsers } from '../../Api/UserApi';
+import { connect } from 'react-redux';
 import { IUser } from '../../Users/User.interface';
 import GroupIcon from '@material-ui/icons/Group';
 import { Forum } from '@material-ui/icons';
 import ConversationsList from '../../Conversations/components/ConversationsList';
 import { IConversation } from '../../Conversations/types';
+import { IAppState } from '../../appReducer';
+import { changeDrawerContent } from '../actions/changeDrawerContentAction';
 
 interface AppDrawerProps {
   showDrawer: boolean;
   drawerContent?: IDrawerContent;
-  hideDrawer: () => void;
-  classes: any;
   changeDrawerContent: (content: IDrawerContent) => void;
+  classes: any;
+  users: IUser[];
   conversations: IConversation[];
   connectedUser?: IUser;
-}
-
-interface AppDrawerState {
-  usersList: IUser[];
 }
 
 const styles = (theme: Theme) => createStyles({
@@ -41,23 +39,13 @@ const styles = (theme: Theme) => createStyles({
   }
 });
 
-class AppDrawer extends React.Component<AppDrawerProps, AppDrawerState> {
-  constructor(props: AppDrawerProps){
-    super(props);
-    this.state = {
-      usersList: []
-    }
-  }
-
-  componentDidMount(){
-    // Load 100 first users
-    getUsers(0,100).then(fetchedUsers => { this.setState({usersList: fetchedUsers})})
-  }
+class AppDrawer extends React.Component<AppDrawerProps> {
 
   render(){
+    const { users, changeDrawerContent } = this.props;
     const content = this.props.drawerContent === 'contacts' ? 
-      <UsersList usersList={this.state.usersList} connectedUser={this.props.connectedUser}/>
-      : <ConversationsList conversations={this.props.conversations} users={this.state.usersList} />;
+      <UsersList usersList={users} connectedUser={this.props.connectedUser}/>
+      : <ConversationsList conversations={this.props.conversations} users={users} />
     return this.props.showDrawer ?
     <Drawer
       variant="persistent"
@@ -70,14 +58,14 @@ class AppDrawer extends React.Component<AppDrawerProps, AppDrawerState> {
         <Grid container justify="space-between" alignItems="center" style={{ height: '100%' }}>
           <Grid item >
             <Toolbar>
-              <IconButton onClick={() => this.props.changeDrawerContent('contacts')}>
+              <IconButton onClick={() => changeDrawerContent('contacts')}>
                 <GroupIcon />
               </IconButton>
             </Toolbar>
           </Grid>
           <Grid item>
             <Toolbar>
-            <IconButton onClick={() => this.props.changeDrawerContent('conversations')}>
+            <IconButton onClick={() => changeDrawerContent('conversations')}>
                 <Forum />
               </IconButton>
             </Toolbar>
@@ -91,5 +79,14 @@ class AppDrawer extends React.Component<AppDrawerProps, AppDrawerState> {
     }
 }
 
-export default withStyles(styles)(AppDrawer);
+const mapStateToProps = ({ layout }: IAppState) => ({
+  showDrawer: layout.showDrawer,
+  drawerContent: layout.drawerContent
+})
+
+const mapDispatchToProps = (dispatch: any) => ({
+  changeDrawerContent: (content: IDrawerContent) => dispatch(changeDrawerContent(content))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(AppDrawer));
 export const drawerWidth = '25vw';

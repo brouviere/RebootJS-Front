@@ -1,6 +1,7 @@
 import { updateConnectedUserCase } from "./cases/updateConnectedUserCase";
-import { IUserAction, IUserState, UPDATE_CONNECTED_USER } from '../Users/User.interface';
+import { IUserAction, IUserState, UPDATE_CONNECTED_USER } from "./User.interface";
 import { defaultUserState } from "./utils/defaultUserState";
+
 
 export function user(state: IUserState = defaultUserState(), action: IUserAction) : IUserState{
   switch(action.type){
