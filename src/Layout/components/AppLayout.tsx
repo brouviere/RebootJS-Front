@@ -2,24 +2,26 @@ import * as React from 'react';
 import AppContent from './AppContent';
 import { withStyles, Theme, createStyles } from '@material-ui/core';
 import AppDrawer, {drawerWidth} from './AppDrawer';
-import { AppMenu } from './AppMenu';
+import AppMenu  from './AppMenu';
 import { getConversations } from '../../Api/ConversationsApi';
 import { IConversation } from '../../Conversations/types';
 import { getConnectedUser, getUsers } from '../../Api/UserApi';
 import { IUser } from '../../Users/User.interface';
 import { connect } from 'react-redux';
 import { IAppState } from '../../appReducer';
+import { updateConnectedUser } from '../../Users/actions/updateConnectedUser';
 
 interface AppLayoutProps {
+  user?: IUser;
   classes: any;
   showDrawer: boolean;
+  updateIdentity: (user: IUser) => void;
 }
 
 interface AppLayoutState {
   conversations: IConversation[];
   users: IUser[];
   polling?: NodeJS.Timeout;
-  connectedUser?: IUser;
 }
 
 const styles = (theme: Theme) => createStyles({
@@ -72,14 +74,13 @@ class AppLayout extends React.Component<AppLayoutProps, AppLayoutState>{
   }
 
   async componentDidMount(){
-
     getUsers(0,100)
       .then(users => { this.setState({users: users}) })
       .catch(error => console.error(error))
 
     try {
       const connectedUser = await getConnectedUser();
-      this.setState({ connectedUser });
+      this.props.updateIdentity(connectedUser);
       await this.fetchConversations(connectedUser);
     } catch (error) {
       console.error(error)
@@ -87,7 +88,7 @@ class AppLayout extends React.Component<AppLayoutProps, AppLayoutState>{
 
     this.setState({ polling: setInterval(() => {
       try {
-        this.fetchConversations(this.state.connectedUser)
+        this.fetchConversations(this.props.user)
       } catch (error) {
         console.error(error)
       }
@@ -100,22 +101,23 @@ class AppLayout extends React.Component<AppLayoutProps, AppLayoutState>{
   }
 
   render(){
-    const { classes, showDrawer } = this.props;
+    const { classes, showDrawer, user } = this.props;
     const filteredClasses = [classes.content, showDrawer && classes.contentShift].filter(Boolean).join(' ');
     
     return <React.Fragment>
         <div className={filteredClasses}>
-          <AppMenu/>
+          <AppMenu />
           <AppContent
             conversations={this.state.conversations}
             users={this.state.users}
-            connectedUser={this.state.connectedUser}
+            connectedUser={user}
           />
         </div>
         <AppDrawer
+          showDrawer={showDrawer}
           users={this.state.users}
           conversations={this.state.conversations}
-          connectedUser={this.state.connectedUser}
+          connectedUser={user}
         />
           
       </React.Fragment>
@@ -123,7 +125,12 @@ class AppLayout extends React.Component<AppLayoutProps, AppLayoutState>{
 
 }
 
-const mapStateToProps = ({ layout } : IAppState) => ({
+const mapStateToProps = ({ user, layout } : IAppState) => ({
+  user: user.connectedUser,
   showDrawer: layout.showDrawer
 })
-export default connect(mapStateToProps)(withStyles(styles)(AppLayout));
+
+const mapDispatchToProps = (dispatch: any) => ({
+  updateIdentity: (user: IUser) => dispatch(updateConnectedUser(user))
+});
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(AppLayout));

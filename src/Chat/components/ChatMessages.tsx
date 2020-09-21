@@ -3,9 +3,12 @@ import ChatMessagesList from './ChatMessagesList';
 import ChatMessagesForm from './ChatMessagesForm';
 import { IConversation } from '../../Conversations/types';
 import { patchConversationSeen, sendMessage } from '../../Api/ConversationsApi';
+import { Typography } from '@material-ui/core';
+import { IUser } from '../../Users/User.interface';
 
 export interface IChatMessagesProps {
   conversation: IConversation;
+  users: IUser[];
 }
 
 class ChatMessages extends React.Component<IChatMessagesProps> {
@@ -30,11 +33,19 @@ class ChatMessages extends React.Component<IChatMessagesProps> {
     }
   }
 
+  getTargetInformation = () => {
+    const { users, conversation} = this.props;
+    console.log(users.find(user => user._id === conversation.targets[0]))
+  }
+
   render(){
+    const { conversation } = this.props;
     return <React.Fragment>
-      <ChatMessagesList messages={this.props.conversation.messages}/>
+      {conversation.messages.length > 0 ? 
+      <ChatMessagesList messages={conversation.messages}/> 
+      : <Typography>This is the beginning of your conversation with </Typography>}
       <ChatMessagesForm
-        conversationId={this.props.conversation._id}
+        conversationId={conversation._id}
         sendMessage={this.doSendMessage}/>
     </React.Fragment>
   }

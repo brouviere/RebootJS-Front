@@ -3,7 +3,6 @@ import axios from 'axios';
 import { IUser } from "../Users/User.interface";
 
 export async function getConversations(connectedUser: IUser): Promise<IConversation[]> {
-  console.log(connectedUser._id);
   const messages: IConversationMessage[] = await axios.get(
      `${process.env.REACT_APP_BACKEND}/messages`,
      { withCredentials: true }
@@ -32,7 +31,6 @@ export async function getConversations(connectedUser: IUser): Promise<IConversat
        updatedAt: new Date(getLastMessageDate(messages)),
        unseenMessages: 0
      });
-     console.log(conversations);
    }
    return conversations;
  }	

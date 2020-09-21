@@ -15,7 +15,7 @@ class UsersList extends React.Component<UsersListProps>{
     const {connectedUser} = this.props;
     if (connectedUser) {
       const conversationId = this.buildConversationId(connectedUser._id, target);
-      return history.push(`/chat/${conversationId}?target=${target}`);
+      return history.push(`/chats/${conversationId}?target=${target}`);
     }
   }
 

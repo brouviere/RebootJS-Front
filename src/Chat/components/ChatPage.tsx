@@ -60,7 +60,7 @@ class ChatPage extends React.Component<ChatPageProps, ChatPageState> {
           <Grid container spacing={2} className={this.props.classes.h100}>
             <Grid item xs={4} className={this.props.classes.h100}>
               <Paper elevation={3} className={this.props.classes.h100}>
-                <ChatMessages conversation={this.state.conversation}/>
+                <ChatMessages conversation={this.state.conversation} users={this.props.users}/>
               </Paper>
             </Grid>
             

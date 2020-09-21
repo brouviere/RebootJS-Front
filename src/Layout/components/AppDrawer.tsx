@@ -80,12 +80,11 @@ class AppDrawer extends React.Component<AppDrawerProps> {
 }
 
 const mapStateToProps = ({ layout }: IAppState) => ({
-  showDrawer: layout.showDrawer,
   drawerContent: layout.drawerContent
 })
 
 const mapDispatchToProps = (dispatch: any) => ({
-  changeDrawerContent: (content: IDrawerContent) => dispatch(changeDrawerContent(content))
+  changeDrawerContent: (content: IDrawerContent) => dispatch(changeDrawerContent(content,true))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(AppDrawer));

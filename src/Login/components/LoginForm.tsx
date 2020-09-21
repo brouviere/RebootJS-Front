@@ -34,7 +34,6 @@ class LoginForm extends React.Component<LoginFormProps, LoginFormState> {
   _submit = () => {
     login(this.state.email.value, this.state.password.value)
       .then((user) => {
-        console.log('login user', user);
         this.props.updateIdentity(user);
         history.push('/profiles/me');
       })
@@ -92,8 +91,7 @@ class LoginForm extends React.Component<LoginFormProps, LoginFormState> {
                 type="submit"
                 disabled={!email.value || !password.value}
                 startIcon={(!email.value || !password.value) ? <BlockIcon color="error"/> : <DoneOutlineIcon />}
-                fullWidth={true}
-              >
+                fullWidth={true}>
                 Submit
               </Button>
             {/* </Grid> */}

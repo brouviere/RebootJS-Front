@@ -1,9 +1,9 @@
-export type IDrawerContent = 'contacts' | 'conversations';
+export type IDrawerContent = 'contacts' | 'conversations' | undefined;
 
 export const CHANGE_DRAWER_CONTENT = 'CHANGE_DRAWER_CONTENT';
 export interface IChangeDrawerContentAction {
   type: typeof CHANGE_DRAWER_CONTENT;
-  content?: IDrawerContent;
+  content: IDrawerContent;
   showDrawer: boolean;
 }
 export interface ILayoutState {
