@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ListItemText } from '@material-ui/core';
+import { Typography } from '@material-ui/core';
 
 interface UsersListItemProps {
   firstname: string;
@@ -9,7 +9,7 @@ interface UsersListItemProps {
 class UsersListItem extends React.Component<UsersListItemProps> {
 
   render(){
-    return <ListItemText>Name: {this.props.firstname} {this.props.lastname}</ListItemText>
+    return <Typography>{this.props.firstname} {this.props.lastname}</Typography>
   }
 }
 

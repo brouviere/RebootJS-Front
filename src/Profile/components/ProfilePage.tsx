@@ -1,29 +1,35 @@
 import * as React from 'react';
-import { IProfileFormFields } from '../../Utils/Types';
 import { IUser } from '../../Users/User.interface';
 import ProfileDetails from './ProfileDetails';
+import { IAppState } from '../../appReducer';
+import { connect } from 'react-redux';
+import { user } from '../../Users/reducer';
+import { match } from 'react-router-dom';
 
 
-interface IProfileFormProps {
-  connectedUser?: IUser;
+interface IProfilePageProps {
+  users: IUser[];
+  match: match<{userId: string }>;
 }
 
-export interface IProfileFormState {
-  status: 'ready' | 'success' | 'error';
-  fields: IProfileFormFields;
-  profile?: IUser;
-}
-
-class ProfilePage extends React.Component<IProfileFormProps> {
+class ProfilePage extends React.Component<IProfilePageProps> {
 
   render(){
+    const {users, match} = this.props;
+    const userId = match.params.userId;
+    const user = users.find(user => user._id === userId);
+
     return (
       <React.Fragment>
-        <h1>{this.props.connectedUser?.firstname} {this.props.connectedUser?.lastname}</h1>
-        <ProfileDetails connectedUser={this.props.connectedUser} />
+        <h1>{user?.firstname} {user?.lastname}</h1>
+        <ProfileDetails user={user} />
       </React.Fragment>
     )
   }
 }
 
-export default ProfilePage;
+const mapStateToProps = ({ user }: IAppState) => ({
+  users: user.users
+})
+
+export default connect(mapStateToProps)(ProfilePage);

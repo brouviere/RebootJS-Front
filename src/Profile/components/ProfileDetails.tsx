@@ -2,15 +2,19 @@ import * as React from 'react';
 import { IUser } from '../../Users/User.interface';
 
 interface IProfileDetailsProps {
-  connectedUser?: IUser;
+  user?: IUser;
 }
 
 class ProfileDetails extends React.Component<IProfileDetailsProps> {
 
   render(){
-    const { connectedUser } = this.props;
+    const { user } = this.props;
     return (
-      <h2>{connectedUser ? connectedUser.email : null}</h2>
+      user ? <React.Fragment>
+          <h2>{user.firstname} {user.lastname}</h2>
+          <h3>{user.email}</h3>
+        </React.Fragment>
+        : <React.Fragment><h2>naaaah :(</h2></React.Fragment>
     )
   }
 }

@@ -6,6 +6,8 @@ import { match, withRouter } from 'react-router-dom';
 import { IUser } from '../../Users/User.interface';
 import history from '../../history';
 import { Grid, Container, Paper, Theme, createStyles, withStyles } from '@material-ui/core';
+import { IAppState } from '../../appReducer';
+import { connect } from 'react-redux';
 
 const styles = (theme: Theme) => createStyles({
   h100:{
@@ -66,7 +68,7 @@ class ChatPage extends React.Component<ChatPageProps, ChatPageState> {
             
             <Grid item xs={4} className={this.props.classes.h100}>
               <Paper elevation={3} className={this.props.classes.h100}>
-                <ChatAttendees attendees={this.props.users.filter(user => this.state.conversation?.targets.includes(user._id))}/>
+                <ChatAttendees />
               </Paper>
             </Grid>
           </Grid>
@@ -77,4 +79,8 @@ class ChatPage extends React.Component<ChatPageProps, ChatPageState> {
   }
 }
 
-export default withRouter(withStyles(styles)(ChatPage));
+const mapStateToProps = ({ user } : IAppState) => ({
+  users: user.users,
+})
+
+export default connect(mapStateToProps)(withRouter(withStyles(styles)(ChatPage)));

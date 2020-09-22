@@ -4,6 +4,8 @@ import { Avatar, ListItem, ListItemAvatar, ListItemText, Divider } from '@materi
 import { IConversation } from '../types';
 import { IUser } from '../../Users/User.interface';
 import history from '../../history';
+import { IAppState } from '../../appReducer';
+import { connect } from 'react-redux';
 
 interface ConversationListItemProps {
   conversation: IConversation;
@@ -36,6 +38,8 @@ class ConversationListItem extends React.Component<ConversationListItemProps> {
 
 }
 
+const mapStateToProps = ({user}: IAppState) => ({
+  users: user.users || []
+})
 
-
-export default ConversationListItem;
+export default connect(mapStateToProps)(ConversationListItem);

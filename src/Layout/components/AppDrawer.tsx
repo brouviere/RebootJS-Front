@@ -42,10 +42,10 @@ const styles = (theme: Theme) => createStyles({
 class AppDrawer extends React.Component<AppDrawerProps> {
 
   render(){
-    const { users, changeDrawerContent } = this.props;
+    const { changeDrawerContent } = this.props;
     const content = this.props.drawerContent === 'contacts' ? 
-      <UsersList usersList={users} connectedUser={this.props.connectedUser}/>
-      : <ConversationsList conversations={this.props.conversations} users={users} />
+      <UsersList />
+      : <ConversationsList conversations={this.props.conversations}/>
     return this.props.showDrawer ?
     <Drawer
       variant="persistent"
@@ -79,7 +79,7 @@ class AppDrawer extends React.Component<AppDrawerProps> {
     }
 }
 
-const mapStateToProps = ({ layout }: IAppState) => ({
+const mapStateToProps = ({ user, layout }: IAppState) => ({
   drawerContent: layout.drawerContent
 })
 

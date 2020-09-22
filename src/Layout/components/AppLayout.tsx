@@ -5,12 +5,12 @@ import AppDrawer, {drawerWidth} from './AppDrawer';
 import AppMenu  from './AppMenu';
 import { getConversations } from '../../Api/ConversationsApi';
 import { IConversation } from '../../Conversations/types';
-import { getConnectedUser, getUsers } from '../../Api/UserApi';
+import { getConnectedUser } from '../../Api/UserApi';
 import { IUser } from '../../Users/User.interface';
 import { connect } from 'react-redux';
 import { IAppState } from '../../appReducer';
 import { updateConnectedUser } from '../../Users/actions/updateConnectedUser';
-import { setAllUsers } from '../../Users/actions/setAllUsers';
+import { makeFetchUsers } from '../../Users/actions/makeFetchUsers';
 
 interface AppLayoutProps {
   user?: IUser;
@@ -18,7 +18,7 @@ interface AppLayoutProps {
   classes: any;
   showDrawer: boolean;
   updateIdentity: (user: IUser) => void;
-  setAllUsers: (users: IUser[]) => void;
+  makeFetchUsers: () => void;
 }
 
 interface AppLayoutState {
@@ -75,13 +75,7 @@ class AppLayout extends React.Component<AppLayoutProps, AppLayoutState>{
   }
 
   async componentDidMount(){
-    getUsers(0,100)
-      .then(users => {
-        if(users.length > 0) {
-          this.props.setAllUsers(users);
-        }
-      })
-      .catch(error => console.error(error))
+    this.props.makeFetchUsers();
 
     try {
       const connectedUser = await getConnectedUser();
@@ -114,7 +108,6 @@ class AppLayout extends React.Component<AppLayoutProps, AppLayoutState>{
           <AppMenu />
           <AppContent
             conversations={this.state.conversations}
-            users={this.props.users}
             connectedUser={user}
           />
         </div>
@@ -138,6 +131,6 @@ const mapStateToProps = ({ user, layout } : IAppState) => ({
 
 const mapDispatchToProps = (dispatch: any) => ({
   updateIdentity: (user: IUser) => dispatch(updateConnectedUser(user)),
-  setAllUsers: (users: IUser[]) => dispatch(setAllUsers(users))
+  makeFetchUsers: () => dispatch(makeFetchUsers())
 });
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(AppLayout));
