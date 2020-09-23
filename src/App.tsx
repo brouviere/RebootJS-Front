@@ -6,6 +6,7 @@ import history from './history';
 import AppLayout from './Layout/components/AppLayout';
 import { Provider } from 'react-redux';
 import { store } from './store';
+import { CookiesProvider, withCookies } from 'react-cookie';
 
 const theme = createMuiTheme({
   
@@ -28,18 +29,21 @@ const theme = createMuiTheme({
 
 function App() {
   return (
-    <div className="my-app">
-      <Provider store={store}>
-        <Router history={history} >
-          <ThemeProvider theme={theme}>
-            
-              <AppLayout />
-            
-          </ThemeProvider>
-        </Router>
-      </Provider>
-    </div>
+    <CookiesProvider>
+      <div className="my-app">
+        <Provider store={store}>
+          <Router history={history} >
+            <ThemeProvider theme={theme}>
+              
+                <AppLayout />
+              
+            </ThemeProvider>
+          </Router>
+        </Provider>
+      </div>
+    </CookiesProvider>
+    
   );
 }
 
-export default App;
+export default withCookies(App);

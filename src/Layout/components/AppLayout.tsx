@@ -107,7 +107,6 @@ class AppLayout extends React.Component<AppLayoutProps, AppLayoutState>{
         <div className={filteredClasses}>
           <AppMenu />
           <AppContent
-            conversations={this.state.conversations}
             connectedUser={user}
           />
         </div>

@@ -14,3 +14,17 @@ export interface IConversationMessage {
   targets: string[];
   content: string;
 }
+
+export const SET_ALL_CONVERSATIONS = "SET_ALL_CONVERSATIONS";
+export interface ISetAllConversationsAction {
+  type: typeof SET_ALL_CONVERSATIONS;
+  conversations: IConversation[];
+}
+
+// Type du sous-store de Conversations
+export interface IConversationState {
+  conversations: IConversation[];
+}
+
+// type global contenant toutes les actions possibles de Conversations
+export type IConversationsAction = ISetAllConversationsAction;

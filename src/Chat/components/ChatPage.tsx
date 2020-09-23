@@ -79,8 +79,9 @@ class ChatPage extends React.Component<ChatPageProps, ChatPageState> {
   }
 }
 
-const mapStateToProps = ({ user } : IAppState) => ({
+const mapStateToProps = ({ user, conversation } : IAppState) => ({
   users: user.users,
+  conversations: conversation.conversations
 })
 
 export default connect(mapStateToProps)(withRouter(withStyles(styles)(ChatPage)));

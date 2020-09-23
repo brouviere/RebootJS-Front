@@ -3,7 +3,7 @@ import { IUser } from '../../Users/User.interface';
 import ProfileDetails from './ProfileDetails';
 import { IAppState } from '../../appReducer';
 import { connect } from 'react-redux';
-import { user } from '../../Users/reducer';
+
 import { match } from 'react-router-dom';
 
 
