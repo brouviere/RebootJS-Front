@@ -10,7 +10,7 @@ import { changeDrawerContent } from '../actions/changeDrawerContentAction';
 import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew';
 import { Link } from 'react-router-dom';
 import { Cookies, withCookies } from 'react-cookie';
-import Logout from '../../Login/components/Logout';
+// import Logout from '../../Login/components/Logout';
 
 interface AppMenuProps {
   user?: IUser;
@@ -43,7 +43,7 @@ class AppMenu extends React.Component<AppMenuProps> {
             <Toolbar>
               <Typography variant="caption">{ user.firstname }</Typography>
               <ProfileButton />
-              <Logout />
+              {/* <Logout /> */}
             </Toolbar>
           </Grid> : <Toolbar><Link to="/login"><IconButton color='default' aria-label="login-button"><PowerSettingsNewIcon fontSize="large" /></IconButton></Link></Toolbar> }
         </Grid>

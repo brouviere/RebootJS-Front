@@ -1,12 +1,11 @@
 import * as React from 'react';
 import { IUser } from '../User.interface';
-import { ListItem, List, Accordion, AccordionSummary, AccordionDetails, Typography, Box, Grid, IconButton, Toolbar } from '@material-ui/core';
+import { Accordion, AccordionSummary, AccordionDetails, Box, Grid, IconButton, Toolbar } from '@material-ui/core';
 import UsersListItem from './UsersListItem';
 import history from '../../history';
 import { IAppState } from '../../appReducer';
 import { connect } from 'react-redux';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import { Forum } from '@material-ui/icons';
 import MessageIcon from '@material-ui/icons/Message';
 import AccountBoxIcon from '@material-ui/icons/AccountBox';
 

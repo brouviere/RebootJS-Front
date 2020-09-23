@@ -20,6 +20,12 @@ class ChatMessagesForm extends React.Component<ChatMessageFormProps, ChatMessage
     }
   }
 
+  handleChange = (event: any) => {
+    console.log('change input');
+    
+    this.setState({message: event.target.value})
+  }
+
   _submit = () => {
     this.props.sendMessage(this.state.message);
     this.setState({message: ''});
@@ -31,7 +37,7 @@ class ChatMessagesForm extends React.Component<ChatMessageFormProps, ChatMessage
         <TextField 
           onChange={(event) => { 
             event.preventDefault();
-            this.setState({message: event.target.value})
+            this.handleChange(event);
           }}
           fullWidth={true}
           value={this.state.message}

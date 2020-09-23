@@ -7,7 +7,6 @@ import { IUser } from '../../Users/User.interface';
 import GroupIcon from '@material-ui/icons/Group';
 import { Forum } from '@material-ui/icons';
 import ConversationsList from '../../Conversations/components/ConversationsList';
-import { IConversation } from '../../Conversations/types';
 import { IAppState } from '../../appReducer';
 import { changeDrawerContent } from '../actions/changeDrawerContentAction';
 
@@ -17,7 +16,6 @@ interface AppDrawerProps {
   changeDrawerContent: (content: IDrawerContent) => void;
   classes: any;
   users: IUser[];
-  conversations: IConversation[];
   connectedUser?: IUser;
 }
 
@@ -45,7 +43,7 @@ class AppDrawer extends React.Component<AppDrawerProps> {
     const { changeDrawerContent } = this.props;
     const content = this.props.drawerContent === 'contacts' ? 
       <UsersList />
-      : <ConversationsList conversations={this.props.conversations}/>
+      : <ConversationsList/>
     return this.props.showDrawer ?
     <Drawer
       variant="persistent"

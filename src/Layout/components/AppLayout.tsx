@@ -3,14 +3,12 @@ import AppContent from './AppContent';
 import { withStyles, Theme, createStyles } from '@material-ui/core';
 import AppDrawer, {drawerWidth} from './AppDrawer';
 import AppMenu  from './AppMenu';
-import { getConversations } from '../../Api/ConversationsApi';
-import { IConversation } from '../../Conversations/types';
-import { getConnectedUser } from '../../Api/UserApi';
 import { IUser } from '../../Users/User.interface';
 import { connect } from 'react-redux';
 import { IAppState } from '../../appReducer';
 import { updateConnectedUser } from '../../Users/actions/updateConnectedUser';
 import { makeFetchUsers } from '../../Users/actions/makeFetchUsers';
+import { makeFetchConversations } from '../../Chat/actions/makeFetchConversations';
 
 interface AppLayoutProps {
   user?: IUser;
@@ -19,10 +17,10 @@ interface AppLayoutProps {
   showDrawer: boolean;
   updateIdentity: (user: IUser) => void;
   makeFetchUsers: () => void;
+  makeFetchConversations: () => void;
 }
 
 interface AppLayoutState {
-  conversations: IConversation[];
   polling?: NodeJS.Timeout;
 }
 
@@ -51,47 +49,12 @@ const styles = (theme: Theme) => createStyles({
 class AppLayout extends React.Component<AppLayoutProps, AppLayoutState>{
   constructor(props: AppLayoutProps){
     super(props);
-    this.state = {
-      conversations: [],
-    }
+    this.state = {}
   }
 
-  // changeDrawerContent = (content: IDrawerContent) => {
-  //   this.setState({ drawerContent: content});
-  // }
-
-  // changeShowDrawer = () => {
-  //   this.setState({ showDrawer: !this.state.showDrawer });
-  // }
-
-  // hideDrawer = () => {
-  //   this.setState({showDrawer: false});
-  // }
-
-  fetchConversations = async (user?: IUser) => {
-    if(!user) return;
-    const conversations = await getConversations(user);
-    this.setState({ conversations })
-  }
-
-  async componentDidMount(){
+  componentDidMount(){
     this.props.makeFetchUsers();
-
-    try {
-      const connectedUser = await getConnectedUser();
-      this.props.updateIdentity(connectedUser);
-      await this.fetchConversations(connectedUser);
-    } catch (error) {
-      console.error(error)
-    }
-
-    this.setState({ polling: setInterval(() => {
-      try {
-        this.fetchConversations(this.props.user)
-      } catch (error) {
-        console.error(error)
-      }
-    }, 100000)})
+    this.props.makeFetchConversations();
   }
 
   componentWillUnmount(){
@@ -113,7 +76,6 @@ class AppLayout extends React.Component<AppLayoutProps, AppLayoutState>{
         <AppDrawer
           showDrawer={showDrawer}
           users={this.props.users}
-          conversations={this.state.conversations}
           connectedUser={user}
         />
           
@@ -130,6 +92,7 @@ const mapStateToProps = ({ user, layout } : IAppState) => ({
 
 const mapDispatchToProps = (dispatch: any) => ({
   updateIdentity: (user: IUser) => dispatch(updateConnectedUser(user)),
-  makeFetchUsers: () => dispatch(makeFetchUsers())
+  makeFetchUsers: () => dispatch(makeFetchUsers()),
+  makeFetchConversations: () => dispatch(makeFetchConversations())
 });
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(AppLayout));
