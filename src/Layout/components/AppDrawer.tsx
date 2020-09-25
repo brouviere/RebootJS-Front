@@ -78,7 +78,9 @@ class AppDrawer extends React.Component<AppDrawerProps> {
 }
 
 const mapStateToProps = ({ user, layout }: IAppState) => ({
-  drawerContent: layout.drawerContent
+  drawerContent: layout.drawerContent,
+  connectedUser: user.connectedUser,
+  users: user.users
 })
 
 const mapDispatchToProps = (dispatch: any) => ({

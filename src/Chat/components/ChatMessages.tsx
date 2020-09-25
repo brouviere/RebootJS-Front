@@ -35,7 +35,8 @@ class ChatMessages extends React.Component<IChatMessagesProps> {
 
   getTargetInformation = () => {
     const { users, conversation} = this.props;
-    console.log(users.find(user => user._id === conversation.targets[0]))
+    const target = users.find(user => user._id === conversation.targets[0]);
+    return target?.firstname
   }
 
   render(){
@@ -43,7 +44,7 @@ class ChatMessages extends React.Component<IChatMessagesProps> {
     return <React.Fragment>
       {conversation.messages.length > 0 ? 
       <ChatMessagesList messages={conversation.messages}/> 
-      : <Typography>This is the beginning of your conversation with </Typography>}
+      : <Typography>This is the beginning of your conversation with {this.getTargetInformation()}</Typography>}
       <ChatMessagesForm
         conversationId={conversation._id}
         sendMessage={this.doSendMessage}/>

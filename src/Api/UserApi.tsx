@@ -29,7 +29,6 @@ export function getConnectedUser(): Promise<IUser> {
 }
 
 export function login(email: string, password: string): Promise<IUser>{
-  console.log(process.env.REACT_APP_BACKEND);
   return axios
     .post(`${process.env.REACT_APP_BACKEND}/login`,
     {

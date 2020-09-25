@@ -7,17 +7,13 @@ import { IUser } from '../../Users/User.interface';
 import { connect } from 'react-redux';
 import { IAppState } from '../../appReducer';
 import { updateConnectedUser } from '../../Users/actions/updateConnectedUser';
-import { makeFetchUsers } from '../../Users/actions/makeFetchUsers';
-import { makeFetchConversations } from '../../Chat/actions/makeFetchConversations';
+import { makeInitApp } from '../actions/makeInitApp';
 
 interface AppLayoutProps {
-  user?: IUser;
-  users: IUser[];
   classes: any;
   showDrawer: boolean;
   updateIdentity: (user: IUser) => void;
-  makeFetchUsers: () => void;
-  makeFetchConversations: () => void;
+  makeInitApp: () => void;
 }
 
 interface AppLayoutState {
@@ -53,8 +49,7 @@ class AppLayout extends React.Component<AppLayoutProps, AppLayoutState>{
   }
 
   componentDidMount(){
-    this.props.makeFetchUsers();
-    this.props.makeFetchConversations();
+    this.props.makeInitApp();
   }
 
   componentWillUnmount(){
@@ -63,20 +58,16 @@ class AppLayout extends React.Component<AppLayoutProps, AppLayoutState>{
   }
 
   render(){
-    const { classes, showDrawer, user } = this.props;
+    const { classes, showDrawer } = this.props;
     const filteredClasses = [classes.content, showDrawer && classes.contentShift].filter(Boolean).join(' ');
     
     return <React.Fragment>
         <div className={filteredClasses}>
           <AppMenu />
-          <AppContent
-            connectedUser={user}
-          />
+          <AppContent />
         </div>
         <AppDrawer
           showDrawer={showDrawer}
-          users={this.props.users}
-          connectedUser={user}
         />
           
       </React.Fragment>
@@ -84,15 +75,12 @@ class AppLayout extends React.Component<AppLayoutProps, AppLayoutState>{
 
 }
 
-const mapStateToProps = ({ user, layout } : IAppState) => ({
-  user: user.connectedUser,
-  users: user.users,
+const mapStateToProps = ({ layout } : IAppState) => ({
   showDrawer: layout.showDrawer
 })
 
 const mapDispatchToProps = (dispatch: any) => ({
   updateIdentity: (user: IUser) => dispatch(updateConnectedUser(user)),
-  makeFetchUsers: () => dispatch(makeFetchUsers()),
-  makeFetchConversations: () => dispatch(makeFetchConversations())
+  makeInitApp: () => dispatch(makeInitApp())
 });
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(AppLayout));

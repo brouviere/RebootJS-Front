@@ -1,13 +1,9 @@
 
-import { IUserAction, IUserState, UPDATE_CONNECTED_USER } from '../User.interface'
+import { IUserState, UpdateConnectedUserAction } from '../User.interface'
 
-export function updateConnectedUserCase(state: IUserState, action: IUserAction) : IUserState{ 
-  if(action.type === UPDATE_CONNECTED_USER && action.user) {
+export function updateConnectedUserCase(state: IUserState, action: UpdateConnectedUserAction) : IUserState{ 
     return {
       ...state,
       connectedUser: action.user
     }
-  } else {
-    return state;
-  }
 }

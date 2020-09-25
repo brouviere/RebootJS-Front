@@ -10,6 +10,6 @@ export function makeFetchUsers() {
     .then((fetchedUsers : IUser[]) => {
       dispatch(setAllUsers(fetchedUsers))
     })
-    // const store = getState();
+
   }
 }

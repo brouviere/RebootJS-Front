@@ -10,9 +10,11 @@ import BlockIcon from '@material-ui/icons/Block';
 import { IUser } from '../../Users/User.interface';
 import { updateConnectedUser } from '../../Users/actions/updateConnectedUser';
 import { connect } from 'react-redux';
+import { makeInitApp } from '../../Layout/actions/makeInitApp';
 
 interface LoginFormProps {
   updateIdentity: (user: IUser) => void;
+  makeInitApp: () => void;
 }
 
 interface LoginFormState {
@@ -36,6 +38,7 @@ class LoginForm extends React.Component<LoginFormProps, LoginFormState> {
       .then((user) => {
         this.props.updateIdentity(user);
         history.push('/profiles/me');
+        makeInitApp();
       })
       .catch(_err => {this.setState({status: 'error'})});
   }
@@ -103,9 +106,10 @@ class LoginForm extends React.Component<LoginFormProps, LoginFormState> {
 
 }
 
-// const mapStateToProps = () => ({});
+
 const mapDispatchToProps = (dispatch: any) => ({
-  updateIdentity: (user: IUser) => dispatch(updateConnectedUser(user))
+  updateIdentity: (user: IUser) => dispatch(updateConnectedUser(user)),
+  makeInitApp: () => dispatch(makeInitApp())
 });
 
 // export default connect(mapStateToProps, mapDispatchToProps)(LoginForm);

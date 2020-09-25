@@ -9,9 +9,9 @@ export function makeFetchConversations() {
     const connectedUser = _getState().user.connectedUser;
     if(connectedUser){
       getConversations(connectedUser)
-      .then((fetchedConversations : IConversation[]) => {
-        dispatch(setAllConversationsAction(fetchedConversations))
-      })
+        .then((fetchedConversations : IConversation[]) => {
+          dispatch(setAllConversationsAction(fetchedConversations))
+        })
     }
     
   }

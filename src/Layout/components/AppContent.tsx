@@ -7,11 +7,8 @@ import { IUser } from '../../Users/User.interface';
 import UsersPage from '../../Users/components/UsersPage';
 import ProfilePage from '../../Profile/components/ProfilePage';
 
-interface AppContentProps {
-  connectedUser?: IUser;
-}
 
-class AppContent extends React.Component<AppContentProps> {
+class AppContent extends React.Component {
 
   render(){
     return (

@@ -23,7 +23,7 @@ class ConversationListItem extends React.Component<ConversationListItemProps> {
           </AvatarGroup>
         </ListItemAvatar>
         <ListItemText
-          primary={this.props.conversation.messages[0].content}
+          primary={this.props.conversation.messages.length > 0 ? this.props.conversation.messages[0].content : ''}
           secondary={this.props.conversation.updatedAt.toString()}>
         </ListItemText>
       </ListItem>
