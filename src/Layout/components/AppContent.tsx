@@ -3,7 +3,6 @@ import { Switch, Route } from 'react-router-dom';
 import LoginPage from '../../Login/components/LoginPage';
 import MyProfilePage from '../../Profile/components/MyProfilePage';
 import ChatPage from '../../Chat/components/ChatPage';
-import { IUser } from '../../Users/User.interface';
 import UsersPage from '../../Users/components/UsersPage';
 import ProfilePage from '../../Profile/components/ProfilePage';
 
